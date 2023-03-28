@@ -65,42 +65,18 @@ local function round(num, bracket)
     return a
 end
 
-local function fadeUI(ui, targetTransparency, duration, callback)
-    local children = ui:GetDescendants()
-    local tweenCount = 0
-    local completedTweens = 0
-
-    for _, child in ipairs(children) do
-        if child:IsA("Frame") or child:IsA("TextLabel") or child:IsA("TextButton") or child:IsA("TextBox") or child:IsA("ImageLabel") then
-            tweenCount = tweenCount + 1
-            local tweenInfo = TweenInfo.new(duration, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-            local tween = TweenService:Create(child, tweenInfo, {BackgroundTransparency = targetTransparency})
-            tween.Completed:Connect(function()
-                completedTweens = completedTweens + 1
-                if completedTweens == tweenCount and callback then
-                    callback()
-                end
-            end)
-            tween:Play()
-        end
-    end
-end
-
 local function toggleUI()
     if game.CoreGui:FindFirstChild("Neverlose") then
-        local ui = game.CoreGui.Neverlose
-        local duration = 0.3
-
-        if ui.Enabled then
-            fadeUI(ui, 1, duration, function()
-                ui.Enabled = false
-            end)
-        else
-            ui.Enabled = true
-            fadeUI(ui, 0, duration)
-        end
+        local enabled = game.CoreGui.Neverlose.Enabled
+        game.CoreGui.Neverlose.Enabled = not enabled
     end
 end
+
+input.InputBegan:Connect(function(inputObject, gameProcessedEvent)
+    if inputObject.KeyCode == Enum.KeyCode.RightShift and not gameProcessedEvent then
+        toggleUI()
+    end
+end)
 
 local function unloadUI()
     if game.CoreGui:FindFirstChild("Neverlose") then
