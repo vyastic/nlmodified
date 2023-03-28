@@ -78,11 +78,7 @@ input.InputBegan:Connect(function(inputObject, gameProcessedEvent)
     end
 end)
 
-local function unloadUI()
-    if game.CoreGui:FindFirstChild("Neverlose") then
-        game.CoreGui.Neverlose:Destroy()
-    end
-end
+
 
 input.InputBegan:Connect(function(inputObject, gameProcessedEvent)
     if not gameProcessedEvent then
