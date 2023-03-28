@@ -102,6 +102,23 @@ local function toggleUI()
     end
 end
 
+local function unloadUI()
+    if game.CoreGui:FindFirstChild("Neverlose") then
+        game.CoreGui.Neverlose:Destroy()
+    end
+end
+
+input.InputBegan:Connect(function(inputObject, gameProcessedEvent)
+    if not gameProcessedEvent then
+        if inputObject.KeyCode == Enum.KeyCode.RightShift then
+            toggleUI()
+        elseif inputObject.KeyCode == Enum.KeyCode.RightAlt then
+            unloadUI()
+        end
+    end
+end)
+
+
 input.InputBegan:Connect(function(inputObject, gameProcessedEvent)
     if inputObject.KeyCode == Enum.KeyCode.RightShift and not gameProcessedEvent then
         toggleUI()
